@@ -18,25 +18,24 @@ h1 {
     color: #343a40;
 }
 
+h2 {
+    text-align: left;
+    color: #343a40;
+    margin-top: 40px;
+}
+
 form {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
 }
 
-form input {
+form input, form select {
     flex: 1;
     padding: 10px;
     border: 1px solid #ced4da;
     border-radius: 4px;
     margin-right: 10px;
-}
-
-form select {
-    margin-right: 10px;
-    padding: 10px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
 }
 
 form button {
@@ -69,12 +68,27 @@ ul li:last-child {
     border-bottom: none;
 }
 
-.task-completed {
+.task-name {
+    flex-grow: 1;
+}
+
+.task-completed .task-name {
     text-decoration: line-through;
     color: grey;
 }
 
-.task-actions a {
+.task-actions {
+    display: flex;
+    align-items: center;
+}
+
+.task-actions .badge {
+    padding: 5px 10px;
+    border-radius: 4px;
+    margin-left: 10px;
+}
+
+.task-actions .btn {
     margin-left: 10px;
     text-decoration: none;
     color: #007bff;
@@ -86,14 +100,27 @@ ul li:last-child {
     transition: background-color 0.3s, color 0.3s;
 }
 
-.task-actions a:hover {
+.task-actions .btn:hover {
+    background-color: #e2e6ea;
+    color: #0056b3;
+}
+
+.task-actions .btn-info:hover,
+.task-actions .btn-secondary:hover {
     background-color: #007bff;
     color: #ffffff;
 }
 
-.badge {
-    padding: 5px 10px;
-    border-radius: 4px;
+.task-actions .btn-danger {
+    background-color: #dc3545;
+    border: 1px solid #dc3545;
+    color: #ffffff;
+}
+
+.task-actions .btn-danger:hover {
+    background-color: #ffffff;
+    border: 1px solid #dc3545;
+    color: #dc3545;
 }
 
 .badge-success {
@@ -111,25 +138,27 @@ ul li:last-child {
     color: #fff;
 }
 
-.btn {
-    padding: 5px 10px;
-    border-radius: 4px;
-    color: #fff;
-    text-decoration: none;
-}
-
 .btn-secondary {
     background-color: #6c757d;
+    color: #fff;
 }
 
 .btn-info {
     background-color: #17a2b8;
+    color: #fff;
 }
 
 .btn-danger {
     background-color: #dc3545;
+    color: #fff;
 }
 
 .btn:hover {
     opacity: 0.8;
+}
+
+.no-tasks {
+    text-align: left;
+    color: #6c757d;
+    margin-top: 10px;
 }
