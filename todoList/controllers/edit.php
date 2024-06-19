@@ -1,20 +1,31 @@
 <?php
 require '../includes/functions.php';
 
-if (isset($_GET['index'])) {
-    $index = $_GET['index'];
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
     $todos = getTodos();
-    if (isset($todos[$index])) {
-        $task = $todos[$index];
+    foreach ($todos as &$task) {
+        if ($task['id'] == $id) {
+            if (isset($_POST['task'])) {
+                $task['name'] = $_POST['task'];
+            }
+            break;
+        }
     }
-}
-
-if (isset($_POST['task'])) {
-    $newTask = $_POST['task'];
-    $todos[$index]['name'] = $newTask;
     saveTodos($todos);
     header('Location: ../index.php');
     exit;
+}
+
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+    $todos = getTodos();
+    foreach ($todos as $task) {
+        if ($task['id'] == $id) {
+            $taskToEdit = $task;
+            break;
+        }
+    }
 }
 ?>
 
@@ -27,8 +38,8 @@ if (isset($_POST['task'])) {
 <body>
     <div class="container">
         <h1 class="mt-5">Editer Tâche</h1>
-        <form action="edit.php?index=<?php echo $index; ?>" method="post" class="form-inline">
-            <input type="text" class="form-control" name="task" value="<?php echo htmlspecialchars($task['name']); ?>" required>
+        <form action="edit.php?id=<?php echo $id; ?>" method="post" class="form-inline">
+            <input type="text" class="form-control" name="task" value="<?php echo htmlspecialchars($taskToEdit['name']); ?>" required>
             <button type="submit" class="btn btn-primary mb-2">Mettre à jour</button>
         </form>
     </div>

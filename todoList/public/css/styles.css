@@ -32,6 +32,13 @@ form input {
     margin-right: 10px;
 }
 
+form select {
+    margin-right: 10px;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
 form button {
     padding: 10px 20px;
     border: none;
@@ -60,6 +67,11 @@ ul li {
 
 ul li:last-child {
     border-bottom: none;
+}
+
+.task-completed {
+    text-decoration: line-through;
+    color: grey;
 }
 
 .task-actions a {
@@ -91,6 +103,11 @@ ul li:last-child {
 
 .badge-warning {
     background-color: #ffc107;
+    color: #fff;
+}
+
+.badge-danger {
+    background-color: #dc3545;
     color: #fff;
 }
 

@@ -1,13 +1,16 @@
 <?php
 require '../includes/functions.php';
 
-if (isset($_GET['index'])) {
-    $index = $_GET['index'];
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
     $todos = getTodos();
-    if (isset($todos[$index])) {
-        array_splice($todos, $index, 1);
-        saveTodos($todos);
+    foreach ($todos as $key => $task) {
+        if ($task['id'] == $id) {
+            unset($todos[$key]);
+            break;
+        }
     }
+    saveTodos(array_values($todos));
 }
 
 header('Location: ../index.php');

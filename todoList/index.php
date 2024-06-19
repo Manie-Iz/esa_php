@@ -17,14 +17,21 @@
             <?php
             require 'includes/functions.php';
             $tasks = getTodos();
-            foreach ($tasks as $index => $task) {
-                echo '<li>';
+            
+            // Trier les tâches : non terminées en haut, terminées en bas
+            usort($tasks, function($a, $b) {
+                return $a['completed'] - $b['completed'];
+            });
+
+            foreach ($tasks as $task) {
+                $class = $task['completed'] ? 'task-completed' : '';
+                echo "<li class='$class'>";
                 echo htmlspecialchars($task['name']);
                 echo $task['completed'] ? ' <span class="badge badge-success">Réalisée</span>' : ' <span class="badge badge-warning">Non Réalisée</span>';
                 echo '<span class="task-actions">';
-                echo " <a href='controllers/toggle.php?index=$index' class='btn btn-sm btn-secondary'>Terminer</a>";
-                echo " <a href='controllers/edit.php?index=$index' class='btn btn-sm btn-info'>Editer</a>";
-                echo " <a href='controllers/delete.php?index=$index' class='btn btn-sm btn-danger'>Supprimer</a>";
+                echo " <a href='controllers/toggle.php?id={$task['id']}' class='btn btn-sm btn-secondary'>Terminer</a>";
+                echo " <a href='controllers/edit.php?id={$task['id']}' class='btn btn-sm btn-info'>Editer</a>";
+                echo " <a href='controllers/delete.php?id={$task['id']}' class='btn btn-sm btn-danger'>Supprimer</a>";
                 echo '</span>';
                 echo '</li>';
             }

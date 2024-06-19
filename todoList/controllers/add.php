@@ -4,7 +4,8 @@ require '../includes/functions.php';
 if (isset($_POST['task'])) {
     $task = $_POST['task'];
     $todos = getTodos();
-    $todos[] = ['name' => $task, 'completed' => false];
+    $id = count($todos) ? max(array_column($todos, 'id')) + 1 : 1;
+    $todos[] = ['id' => $id, 'name' => $task, 'completed' => false];
     saveTodos($todos);
 }
 
