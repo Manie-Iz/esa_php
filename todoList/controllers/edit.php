@@ -13,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $completion_datetime .= " $completion_time";
         }
         $priority = $_POST['priority'];
+        $category = isset($_POST['category']) && $_POST['category'] !== '' ? $_POST['category'] : 'Sans Catégorie';
 
         $todos = getTodos();
         foreach ($todos as &$task) {
@@ -20,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $task['name'] = $task_name;
                 $task['completion_date'] = $completion_datetime;
                 $task['priority'] = $priority;
+                $task['category'] = $category;
                 break;
             }
         }
@@ -60,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <option value="important" <?php echo $taskToEdit['priority'] == 'important' ? 'selected' : ''; ?>>Importante</option>
                 <option value="any" <?php echo $taskToEdit['priority'] == 'any' ? 'selected' : ''; ?>>Quelconque</option>
             </select>
+            <input type="text" class="form-control ml-2" name="category" value="<?php echo htmlspecialchars($taskToEdit['category']); ?>" placeholder="Catégorie (optionnelle)">
             <button type="submit" class="btn btn-primary mb-2">Mettre à jour</button>
         </form>
     </div>

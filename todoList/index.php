@@ -1,8 +1,3 @@
-<?php
-date_default_timezone_set('Europe/Paris'); // Définir le fuseau horaire par défaut
-require 'includes/functions.php';
-$tasks = getTodos();
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,11 +17,15 @@ $tasks = getTodos();
                 <option value="important">Importante</option>
                 <option value="any">Quelconque</option>
             </select>
+            <input type="text" name="category" placeholder="Catégorie (optionnelle)" class="form-control ml-2">
             <button type="submit">Ajouter Tâche</button>
         </form>
 
         <?php
+        require 'includes/functions.php';
+        $tasks = getTodos();
 
+        // Trier les tâches par priorité et état de complétion
         usort($tasks, function($a, $b) {
             if ($a['priority'] == $b['priority']) {
                 return $a['completed'] - $b['completed'];
@@ -34,7 +33,18 @@ $tasks = getTodos();
             return ($a['priority'] == 'urgent') ? -1 : (($a['priority'] == 'important') ? -1 : 1);
         });
 
-        function displayTasks($tasks) {
+        // Groupes de tâches par catégorie
+        $groupedTasks = [];
+        foreach ($tasks as $task) {
+            $category = $task['category'];
+            if (!isset($groupedTasks[$category])) {
+                $groupedTasks[$category] = [];
+            }
+            $groupedTasks[$category][] = $task;
+        }
+
+        function displayTasks($tasks, $category) {
+            echo "<h2>$category</h2>";
             echo '<ul class="task-list">';
             foreach ($tasks as $task) {
                 $class = $task['completed'] ? 'task-completed' : '';
@@ -60,7 +70,7 @@ $tasks = getTodos();
                 if ($task['completion_date']) {
                     $date = DateTime::createFromFormat('Y-m-d H:i', $task['completion_date']) ?: DateTime::createFromFormat('Y-m-d', $task['completion_date']);
                     if ($date) {
-                        $formattedDate = $date->format(strpos($task['completion_date'], ' ') !== false ? 'd-m-Y H:i' : 'd-m-Y');
+                        $formattedDate = $date->format($date->format('H:i') !== '00:00' ? 'd-m-Y H:i' : 'd-m-Y');
                         if ($task['completed']) {
                             echo "<br><small>A été accomplie le: " . htmlspecialchars($formattedDate) . "</small>";
                         } else {
@@ -86,7 +96,9 @@ $tasks = getTodos();
             echo '</ul>';
         }
 
-        displayTasks($tasks);
+        foreach ($groupedTasks as $category => $tasks) {
+            displayTasks($tasks, $category);
+        }
         ?>
     </div>
 </body>

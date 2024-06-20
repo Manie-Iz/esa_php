@@ -15,7 +15,8 @@ function getTodos() {
             'name' => $data[1], 
             'completed' => $data[2] == '1', 
             'completion_date' => isset($data[3]) ? $data[3] : '',
-            'priority' => isset($data[4]) ? $data[4] : 'any'
+            'priority' => isset($data[4]) ? $data[4] : 'any',
+            'category' => isset($data[5]) && $data[5] !== '' ? $data[5] : 'Sans Catégorie'
         ];
     }
     fclose($file);
@@ -32,7 +33,8 @@ function saveTodos($todos) {
             $task['name'], 
             $task['completed'] ? '1' : '0', 
             $task['completion_date'],
-            $task['priority']
+            $task['priority'],
+            $task['category']
         ]);
     }
     fclose($file);
