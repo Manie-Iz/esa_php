@@ -2,6 +2,7 @@
 
 function getTodos() {
     $file_path = __DIR__ . '/../todos.csv'; 
+
     if (!file_exists($file_path)) {
         return [];
     }

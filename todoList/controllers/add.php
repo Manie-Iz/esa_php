@@ -1,6 +1,6 @@
 <?php
 date_default_timezone_set('Europe/Paris'); 
-require '../includes/functions.php';
+require __DIR__ . '/../includes/functions.php';
 
 if (isset($_POST['task'])) {
     $task = $_POST['task'];
@@ -13,7 +13,18 @@ if (isset($_POST['task'])) {
     $priority = $_POST['priority'];
     $category = isset($_POST['category']) && $_POST['category'] !== '' ? $_POST['category'] : 'Sans Catégorie';
     $todos = getTodos();
-    $id = count($todos) ? max(array_column($todos, 'id')) + 1 : 1;
+    
+    $id = 1;
+    if (!empty($todos)) {
+        $max_id = 0;
+        foreach ($todos as $todo) {
+            if ($todo['id'] > $max_id) {
+                $max_id = $todo['id'];
+            }
+        }
+        $id = $max_id + 1;
+    }
+
     $todos[] = ['id' => $id, 'name' => $task, 'completed' => false, 'completion_date' => $completion_datetime, 'priority' => $priority, 'category' => $category];
     saveTodos($todos);
 }
