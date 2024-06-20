@@ -1,5 +1,6 @@
 <?php
 date_default_timezone_set('Europe/Paris'); 
+require_once __DIR__ . '/../includes/functions.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['id']) && isset($_POST['task'])) {
