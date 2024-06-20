@@ -1,8 +1,7 @@
 <?php
 
 function getTodos() {
-    $file_path = __DIR__ . '/../todos.csv'; // Chemin absolu vers le fichier CSV
-
+    $file_path = __DIR__ . '/../todos.csv'; 
     if (!file_exists($file_path)) {
         return [];
     }
@@ -24,7 +23,7 @@ function getTodos() {
 }
 
 function saveTodos($todos) {
-    $file_path = __DIR__ . '/../todos.csv'; // Chemin absolu vers le fichier CSV
+    $file_path = __DIR__ . '/../todos.csv'; 
 
     $file = fopen($file_path, 'w');
     foreach ($todos as $task) {
