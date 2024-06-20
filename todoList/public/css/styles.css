@@ -68,6 +68,12 @@ ul li:last-child {
     border-bottom: none;
 }
 
+.task-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
 .task-name {
     flex-grow: 1;
 }
@@ -77,9 +83,40 @@ ul li:last-child {
     color: grey;
 }
 
+.priority-indicator-container {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.priority-indicator {
+    width: 10px;
+    height: 10px;
+    margin-right: 5px;
+    border-radius: 2px;
+}
+
+.priority-urgent {
+    background-color: red;
+}
+
+.priority-important {
+    background-color: yellow;
+}
+
+.priority-any {
+    background-color: blue;
+}
+
+.priority-text {
+    font-size: 12px;
+    color: #6c757d;
+}
+
 .task-actions {
     display: flex;
     align-items: center;
+    margin-left: 20px;
 }
 
 .task-actions .badge {

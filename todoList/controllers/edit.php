@@ -1,18 +1,24 @@
 <?php
+date_default_timezone_set('Europe/Paris'); // Définir le fuseau horaire par défaut
 require '../includes/functions.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['id']) && isset($_POST['task'])) {
         $id = $_POST['id'];
         $task_name = $_POST['task'];
-        $completion_date = $_POST['completion_date'] ? $_POST['completion_date'] : '';
+        $completion_date = $_POST['completion_date'];
+        $completion_time = $_POST['completion_time'];
+        $completion_datetime = $completion_date;
+        if (!empty($completion_time)) {
+            $completion_datetime .= " $completion_time";
+        }
         $priority = $_POST['priority'];
 
         $todos = getTodos();
         foreach ($todos as &$task) {
             if ($task['id'] == $id) {
                 $task['name'] = $task_name;
-                $task['completion_date'] = $completion_date;
+                $task['completion_date'] = $completion_datetime;
                 $task['priority'] = $priority;
                 break;
             }
@@ -47,7 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form action="edit.php" method="post" class="form-inline">
             <input type="hidden" name="id" value="<?php echo $taskToEdit['id']; ?>">
             <input type="text" class="form-control" name="task" value="<?php echo htmlspecialchars($taskToEdit['name']); ?>" required>
-            <input type="datetime-local" class="form-control ml-2" name="completion_date" value="<?php echo htmlspecialchars($taskToEdit['completion_date']); ?>">
+            <input type="date" class="form-control ml-2" name="completion_date" value="<?php echo htmlspecialchars(substr($taskToEdit['completion_date'], 0, 10)); ?>">
+            <input type="time" class="form-control ml-2" name="completion_time" value="<?php echo htmlspecialchars(substr($taskToEdit['completion_date'], 11)); ?>">
             <select name="priority" class="form-control ml-2">
                 <option value="urgent" <?php echo $taskToEdit['priority'] == 'urgent' ? 'selected' : ''; ?>>Urgente</option>
                 <option value="important" <?php echo $taskToEdit['priority'] == 'important' ? 'selected' : ''; ?>>Importante</option>
