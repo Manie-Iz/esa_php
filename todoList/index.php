@@ -35,12 +35,17 @@
 
         // Groupes de tâches par catégorie
         $groupedTasks = [];
+        $completedTasks = [];
         foreach ($tasks as $task) {
-            $category = $task['category'];
-            if (!isset($groupedTasks[$category])) {
-                $groupedTasks[$category] = [];
+            if ($task['completed']) {
+                $completedTasks[] = $task;
+            } else {
+                $category = $task['category'];
+                if (!isset($groupedTasks[$category])) {
+                    $groupedTasks[$category] = [];
+                }
+                $groupedTasks[$category][] = $task;
             }
-            $groupedTasks[$category][] = $task;
         }
 
         function displayTasks($tasks, $category) {
@@ -70,7 +75,7 @@
                 if ($task['completion_date']) {
                     $date = DateTime::createFromFormat('Y-m-d H:i', $task['completion_date']) ?: DateTime::createFromFormat('Y-m-d', $task['completion_date']);
                     if ($date) {
-                        $formattedDate = $date->format($date->format('H:i') !== '00:00' ? 'd-m-Y H:i' : 'd-m-Y');
+                        $formattedDate = $date->format(strpos($task['completion_date'], ' ') !== false ? 'd-m-Y H:i' : 'd-m-Y');
                         if ($task['completed']) {
                             echo "<br><small>A été accomplie le: " . htmlspecialchars($formattedDate) . "</small>";
                         } else {
@@ -98,6 +103,34 @@
 
         foreach ($groupedTasks as $category => $tasks) {
             displayTasks($tasks, $category);
+        }
+
+        if (!empty($completedTasks)) {
+            echo "<h2>Tâches Terminées</h2>";
+            echo '<ul class="task-list">';
+            foreach ($completedTasks as $task) {
+                echo "<li class='task-completed'>";
+                echo "<div class='task-content'>";
+                echo "<span class='task-name'>" . htmlspecialchars($task['name']) . "</span>";
+                if ($task['completion_date']) {
+                    $date = DateTime::createFromFormat('Y-m-d H:i', $task['completion_date']) ?: DateTime::createFromFormat('Y-m-d', $task['completion_date']);
+                    if ($date) {
+                        $formattedDate = $date->format(strpos($task['completion_date'], ' ') !== false ? 'd-m-Y H:i' : 'd-m-Y');
+                        echo "<br><small>A été accomplie le: " . htmlspecialchars($formattedDate) . "</small>";
+                    } else {
+                        echo "<br><small>Date non valide: " . htmlspecialchars($task['completion_date']) . "</small>";
+                    }
+                }
+                echo '</div>';
+                echo '<span class="task-actions">';
+                echo ' <span class="badge badge-success">Réalisée</span>';
+                echo " <a href='controllers/toggle.php?id={$task['id']}' class='btn btn-sm btn-secondary'>Non terminée</a>";
+                echo " <a href='controllers/edit.php?id={$task['id']}' class='btn btn-sm btn-info'>Editer</a>";
+                echo " <a href='controllers/delete.php?id={$task['id']}' class='btn btn-sm btn-danger'>Supprimer</a>";
+                echo '</span>';
+                echo '</li>';
+            }
+            echo '</ul>';
         }
         ?>
     </div>

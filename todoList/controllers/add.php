@@ -1,6 +1,6 @@
 <?php
-date_default_timezone_set('Europe/Paris'); 
-require __DIR__ . '/../includes/functions.php';
+date_default_timezone_set('Europe/Paris'); // Définir le fuseau horaire par défaut
+require_once __DIR__ . '/../includes/functions.php';
 
 if (isset($_POST['task'])) {
     $task = $_POST['task'];
@@ -14,6 +14,7 @@ if (isset($_POST['task'])) {
     $category = isset($_POST['category']) && $_POST['category'] !== '' ? $_POST['category'] : 'Sans Catégorie';
     $todos = getTodos();
     
+    // Trouver le plus grand identifiant sans addition directe
     $id = 1;
     if (!empty($todos)) {
         $max_id = 0;

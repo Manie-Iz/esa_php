@@ -1,5 +1,5 @@
 <?php
-date_default_timezone_set('Europe/Paris'); 
+date_default_timezone_set('Europe/Paris'); // Définir le fuseau horaire par défaut
 require_once __DIR__ . '/../includes/functions.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
