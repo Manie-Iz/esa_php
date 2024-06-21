@@ -4,10 +4,18 @@
     <title>Liste de Tâches</title>
     <link href="public/css/styles.css" rel="stylesheet">
 </head>
-<body>
+<body class="<?php echo isset($_COOKIE['theme']) && $_COOKIE['theme'] == 'dark' ? 'dark-mode' : ''; ?>">
     <div class="container">
         <h1 class="mt-5">Liste de Tâches</h1>
-        
+
+        <!-- Bouton pour basculer entre les modes -->
+        <form action="toggle_theme.php" method="post" style="margin-bottom: 20px;">
+            <button type="submit" name="toggle-theme" class="btn btn-secondary">
+                <?php echo isset($_COOKIE['theme']) && $_COOKIE['theme'] == 'dark' ? 'Mode Clair' : 'Mode Sombre'; ?>
+            </button>
+        </form>
+
+        <!-- Formulaire pour ajouter une nouvelle tâche -->
         <form action="controllers/add.php" method="post" class="form-inline mb-3">
             <input type="text" name="task" placeholder="Nouvelle tâche" required>
             <input type="date" name="completion_date" class="form-control ml-2">
@@ -22,7 +30,10 @@
         </form>
 
         <?php
+        // Inclusion du fichier contenant les fonctions utiles
         require 'includes/functions.php';
+
+        // Récupération de toutes les tâches
         $tasks = getTodos();
 
         // Trier les tâches par priorité et état de complétion
@@ -33,7 +44,7 @@
             return ($a['priority'] == 'urgent') ? -1 : (($a['priority'] == 'important') ? -1 : 1);
         });
 
-        // Groupes de tâches par catégorie
+        // Groupes de tâches par catégorie et séparer les tâches terminées
         $groupedTasks = [];
         $completedTasks = [];
         foreach ($tasks as $task) {
@@ -48,6 +59,7 @@
             }
         }
 
+        // Fonction pour afficher les tâches par catégorie
         function displayTasks($tasks, $category) {
             echo "<h2>$category</h2>";
             echo '<ul class="task-list">';
@@ -58,7 +70,7 @@
                 switch ($task['priority']) {
                     case 'urgent':
                         $colorClass = 'priority-urgent';
-                        $priorityText = 'Tâche Urgente';
+                        $priorityText = 'Tâche Urente';
                         break;
                     case 'important':
                         $colorClass = 'priority-important';
@@ -101,10 +113,12 @@
             echo '</ul>';
         }
 
+        // Afficher les tâches par catégorie
         foreach ($groupedTasks as $category => $tasks) {
             displayTasks($tasks, $category);
         }
 
+        // Afficher les tâches terminées
         if (!empty($completedTasks)) {
             echo "<h2>Tâches Terminées</h2>";
             echo '<ul class="task-list">';

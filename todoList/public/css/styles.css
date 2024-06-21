@@ -1,6 +1,7 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #f8f9fa;
+    color: #343a40;
     padding: 20px;
 }
 
@@ -13,15 +14,8 @@ body {
     border-radius: 8px;
 }
 
-h1 {
-    text-align: center;
+h1, h2 {
     color: #343a40;
-}
-
-h2 {
-    text-align: left;
-    color: #343a40;
-    margin-top: 40px;
 }
 
 form {
@@ -32,11 +26,11 @@ form {
 }
 
 form input, form select, form button {
-    flex: 1 1 48%; /* Permettre aux éléments de formulaire de s'étendre */
+    flex: 1 1 48%; 
     padding: 10px;
     border: 1px solid #ced4da;
     border-radius: 4px;
-    margin: 5px; /* Espacement autour des éléments de formulaire */
+    margin: 5px; 
 }
 
 form button {
@@ -190,4 +184,108 @@ ul li:last-child {
 .priority-text {
     font-size: 12px;
     color: #343a40;
+}
+
+/* Styles pour le mode sombre */
+body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+body.dark-mode .container {
+    background-color: #1e1e1e;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode h1, body.dark-mode h2 {
+    color: #e0e0e0;
+}
+
+body.dark-mode form input, body.dark-mode form select, body.dark-mode form button {
+    background-color: #333;
+    border: 1px solid #444;
+    color: #e0e0e0;
+}
+
+body.dark-mode form button {
+    background-color: #007bff;
+}
+
+body.dark-mode form button:hover {
+    background-color: #0056b3;
+}
+
+body.dark-mode ul li {
+    border-bottom: 1px solid #444;
+}
+
+body.dark-mode .task-completed .task-name {
+    color: #757575;
+}
+
+body.dark-mode .task-actions .btn {
+    background-color: #333;
+    border: 1px solid #007bff;
+    color: #007bff;
+}
+
+body.dark-mode .task-actions .btn:hover {
+    background-color: #444;
+    color: #0056b3;
+}
+
+body.dark-mode .task-actions .btn-info:hover,
+body.dark-mode .task-actions .btn-secondary:hover {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+body.dark-mode .task-actions .btn-danger {
+    background-color: #dc3545;
+    border: 1px solid #dc3545;
+    color: #ffffff;
+}
+
+body.dark-mode .task-actions .btn-danger:hover {
+    background-color: #ffffff;
+    border: 1px solid #dc3545;
+    color: #dc3545;
+}
+
+body.dark-mode .badge-success {
+    background-color: #28a745;
+    color: #fff;
+}
+
+body.dark-mode .badge-warning {
+    background-color: #ffc107;
+    color: #fff;
+}
+
+body.dark-mode .badge-danger {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+body.dark-mode .btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+body.dark-mode .btn-info {
+    background-color: #17a2b8;
+    color: #fff;
+}
+
+body.dark-mode .btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+body.dark-mode .no-tasks {
+    color: #9e9e9e;
+}
+
+body.dark-mode .priority-text {
+    color: #e0e0e0;
 }
