@@ -30,10 +30,7 @@
         </form>
 
         <?php
-        // Inclusion du fichier contenant les fonctions utiles
         require 'includes/functions.php';
-
-        // Récupération de toutes les tâches
         $tasks = getTodos();
 
         // Trier les tâches par priorité et état de complétion
@@ -67,10 +64,18 @@
                 $class = $task['completed'] ? 'task-completed' : '';
                 $colorClass = '';
                 $priorityText = '';
+                $dateClass = '';
+                if ($task['completion_date']) {
+                    $currentDate = new DateTime();
+                    $taskDate = DateTime::createFromFormat('Y-m-d H:i', $task['completion_date']) ?: DateTime::createFromFormat('Y-m-d', $task['completion_date']);
+                    if ($taskDate && $taskDate < $currentDate && !$task['completed']) {
+                        $dateClass = 'date-overdue';
+                    }
+                }
                 switch ($task['priority']) {
                     case 'urgent':
                         $colorClass = 'priority-urgent';
-                        $priorityText = 'Tâche Urente';
+                        $priorityText = 'Tâche Urgente';
                         break;
                     case 'important':
                         $colorClass = 'priority-important';
@@ -85,16 +90,11 @@
                 echo "<div class='task-content'>";
                 echo "<span class='task-name'>" . htmlspecialchars($task['name']) . "</span>";
                 if ($task['completion_date']) {
-                    $date = DateTime::createFromFormat('Y-m-d H:i', $task['completion_date']) ?: DateTime::createFromFormat('Y-m-d', $task['completion_date']);
-                    if ($date) {
-                        $formattedDate = $date->format(strpos($task['completion_date'], ' ') !== false ? 'd-m-Y H:i' : 'd-m-Y');
-                        if ($task['completed']) {
-                            echo "<br><small>A été accomplie le: " . htmlspecialchars($formattedDate) . "</small>";
-                        } else {
-                            echo "<br><small>A accomplir pour le: " . htmlspecialchars($formattedDate) . "</small>";
-                        }
+                    $formattedDate = $taskDate->format(strpos($task['completion_date'], ' ') !== false ? 'd-m-Y H:i' : 'd-m-Y');
+                    if ($task['completed']) {
+                        echo "<br><small class='$dateClass'>A été accomplie le: " . htmlspecialchars($formattedDate) . "</small>";
                     } else {
-                        echo "<br><small>Date non valide: " . htmlspecialchars($task['completion_date']) . "</small>";
+                        echo "<br><small class='$dateClass'>A accomplir pour le: " . htmlspecialchars($formattedDate) . "</small>";
                     }
                 }
                 echo "<div class='priority-indicator-container'>";
@@ -127,13 +127,9 @@
                 echo "<div class='task-content'>";
                 echo "<span class='task-name'>" . htmlspecialchars($task['name']) . "</span>";
                 if ($task['completion_date']) {
-                    $date = DateTime::createFromFormat('Y-m-d H:i', $task['completion_date']) ?: DateTime::createFromFormat('Y-m-d', $task['completion_date']);
-                    if ($date) {
-                        $formattedDate = $date->format(strpos($task['completion_date'], ' ') !== false ? 'd-m-Y H:i' : 'd-m-Y');
-                        echo "<br><small>A été accomplie le: " . htmlspecialchars($formattedDate) . "</small>";
-                    } else {
-                        echo "<br><small>Date non valide: " . htmlspecialchars($task['completion_date']) . "</small>";
-                    }
+                    $taskDate = DateTime::createFromFormat('Y-m-d H:i', $task['completion_date']) ?: DateTime::createFromFormat('Y-m-d', $task['completion_date']);
+                    $formattedDate = $taskDate->format(strpos($task['completion_date'], ' ') !== false ? 'd-m-Y H:i' : 'd-m-Y');
+                    echo "<br><small>A été accomplie le: " . htmlspecialchars($formattedDate) . "</small>";
                 }
                 echo '</div>';
                 echo '<span class="task-actions">';

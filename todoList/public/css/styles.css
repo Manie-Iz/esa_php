@@ -70,6 +70,10 @@ ul li:last-child {
     color: grey;
 }
 
+.date-overdue {
+    color: red;
+}
+
 .task-actions {
     display: flex;
     align-items: center;
@@ -221,6 +225,10 @@ body.dark-mode ul li {
 
 body.dark-mode .task-completed .task-name {
     color: #757575;
+}
+
+body.dark-mode .date-overdue {
+    color: #ff6666;
 }
 
 body.dark-mode .task-actions .btn {
