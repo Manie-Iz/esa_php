@@ -64,14 +64,16 @@
                 $class = $task['completed'] ? 'task-completed' : '';
                 $colorClass = '';
                 $priorityText = '';
-                $dateClass = '';
+                $dateClass = ''; 
+
                 if ($task['completion_date']) {
-                    $currentDate = new DateTime();
+                    $currentDate = new DateTime(); 
                     $taskDate = DateTime::createFromFormat('Y-m-d H:i', $task['completion_date']) ?: DateTime::createFromFormat('Y-m-d', $task['completion_date']);
-                    if ($taskDate && $taskDate < $currentDate && !$task['completed']) {
+                    if ($taskDate && $taskDate < $currentDate) {
                         $dateClass = 'date-overdue';
                     }
                 }
+
                 switch ($task['priority']) {
                     case 'urgent':
                         $colorClass = 'priority-urgent';
@@ -86,9 +88,11 @@
                         $priorityText = 'Tâche Quelconque';
                         break;
                 }
+
                 echo "<li class='$class'>";
                 echo "<div class='task-content'>";
                 echo "<span class='task-name'>" . htmlspecialchars($task['name']) . "</span>";
+
                 if ($task['completion_date']) {
                     $formattedDate = $taskDate->format(strpos($task['completion_date'], ' ') !== false ? 'd-m-Y H:i' : 'd-m-Y');
                     if ($task['completed']) {
@@ -97,11 +101,13 @@
                         echo "<br><small class='$dateClass'>A accomplir pour le: " . htmlspecialchars($formattedDate) . "</small>";
                     }
                 }
+
                 echo "<div class='priority-indicator-container'>";
                 echo "<span class='priority-indicator $colorClass'></span>";
                 echo "<span class='priority-text'>$priorityText</span>";
                 echo "</div>";
                 echo '</div>';
+
                 echo '<span class="task-actions">';
                 echo $task['completed'] ? ' <span class="badge badge-success">Réalisée</span>' : ' <span class="badge badge-warning">Non Réalisée</span>';
                 echo " <a href='controllers/toggle.php?id={$task['id']}' class='btn btn-sm btn-secondary'>Terminer</a>";
@@ -122,14 +128,20 @@
         if (!empty($completedTasks)) {
             echo "<h2>Tâches Terminées</h2>";
             echo '<ul class="task-list">';
+            $currentDate = new DateTime(); 
             foreach ($completedTasks as $task) {
+                $dateClass = ''; 
+
                 echo "<li class='task-completed'>";
                 echo "<div class='task-content'>";
                 echo "<span class='task-name'>" . htmlspecialchars($task['name']) . "</span>";
                 if ($task['completion_date']) {
                     $taskDate = DateTime::createFromFormat('Y-m-d H:i', $task['completion_date']) ?: DateTime::createFromFormat('Y-m-d', $task['completion_date']);
+                    if ($taskDate && $taskDate < $currentDate) {
+                        $dateClass = 'date-overdue';
+                    }
                     $formattedDate = $taskDate->format(strpos($task['completion_date'], ' ') !== false ? 'd-m-Y H:i' : 'd-m-Y');
-                    echo "<br><small>A été accomplie le: " . htmlspecialchars($formattedDate) . "</small>";
+                    echo "<br><small class='$dateClass'>La date de complition été le: " . htmlspecialchars($formattedDate) . "</small>";
                 }
                 echo '</div>';
                 echo '<span class="task-actions">';
